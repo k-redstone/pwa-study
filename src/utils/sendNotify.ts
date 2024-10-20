@@ -1,5 +1,5 @@
 export async function sendNotificationsToAll() {
-  const response = await fetch(`/api/fcm`, {
+  await fetch(`/api/fcm`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -9,7 +9,4 @@ export async function sendNotificationsToAll() {
       body: "This is a notification to all users.",
     }),
   });
-
-  const data = await response.json();
-  console.log(data);
 }
