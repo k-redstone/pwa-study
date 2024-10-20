@@ -1,5 +1,5 @@
 "use client";
-
+import { sendNotificationsToAll } from "@/utils/sendNotify";
 import { initializeApp } from "firebase/app";
 import { getMessaging, onMessage, getToken } from "firebase/messaging";
 import { useEffect } from "react";
@@ -23,9 +23,15 @@ const initFCM = async () => {
   const messaging = getMessaging(firebaseApp);
 
   getToken(messaging, { vapidKey: process.env.NEXT_PUBLIC_FIREBASE_VAPI })
-    .then((currentToken) => {
+    .then(async (currentToken) => {
       if (currentToken) {
-        console.log(currentToken);
+        await fetch("/api/saveToken", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ token: currentToken }), // 발급받은 토큰
+        });
       } else {
         console.log(
           "No registration token available. Request permission to generate one."
@@ -49,6 +55,13 @@ export default function Home() {
   return (
     <div>
       <p>Hi this is pwa-study home</p>
+      <button
+        type="button"
+        className="rounded-xl bg-orange-400 text-white px-5 py-2"
+        onClick={() => sendNotificationsToAll()}
+      >
+        전체 알림 보내기
+      </button>
     </div>
   );
 }
