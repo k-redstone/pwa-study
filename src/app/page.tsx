@@ -2,7 +2,6 @@
 import { sendNotificationsToAll } from "@/utils/sendNotify";
 import { initializeApp } from "firebase/app";
 import { getMessaging, onMessage, getToken } from "firebase/messaging";
-import { useEffect } from "react";
 
 const initFCM = async () => {
   const permission = await Notification.requestPermission();
@@ -47,10 +46,22 @@ const initFCM = async () => {
   });
 };
 
+const requestNotificationPermission = async () => {
+  const permission = await Notification.requestPermission();
+  if (permission !== "granted") {
+    console.warn("Notification permission not granted.");
+    return false;
+  }
+  return true;
+};
+
 export default function Home() {
-  useEffect(() => {
-    initFCM();
-  }, []);
+  const handlePermissionRequest = async () => {
+    const granted = await requestNotificationPermission();
+    if (granted) {
+      await initFCM();
+    }
+  };
 
   return (
     <div>
@@ -61,6 +72,13 @@ export default function Home() {
         onClick={() => sendNotificationsToAll()}
       >
         전체 알림 보내기
+      </button>
+      <button
+        type="button"
+        className="rounded-xl bg-orange-400 text-white px-5 py-2"
+        onClick={() => handlePermissionRequest()}
+      >
+        권한 설정
       </button>
     </div>
   );
