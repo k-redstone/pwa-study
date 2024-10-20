@@ -24,7 +24,6 @@ messaging.onBackgroundMessage((payload) => {
   const notificationTitle = payload.notification.title;
   const notificationOptions = {
     body: payload.notification.body,
-    icon: "/icons/icon512_rounded.png",
   };
 
   self.registration.showNotification(notificationTitle, notificationOptions);
@@ -42,4 +41,22 @@ self.addEventListener("notificationclick", (event) => {
   event.notification.close();
 
   event.waitUntil(clients.openWindow("https://pwa-study-xi.vercel.app/fcm"));
+});
+
+self.addEventListener("push", function (event) {
+  if (event.data) {
+    // 알림 메세지일 경우엔 event.data.json().notification;
+    const data = event.data.json().data;
+    console.log(data);
+    const notificationTitle = data.title;
+    const notificationOptions = {
+      body: payload.notification.body,
+    };
+
+    event.waitUntil(
+      self.registration.showNotification(notificationTitle, notificationOptions)
+    );
+  } else {
+    console.log("This push event has no data.");
+  }
 });
