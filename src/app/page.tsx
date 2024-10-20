@@ -1,18 +1,24 @@
 "use client";
 import { sendNotificationsToAll } from "@/utils/sendNotify";
 import { setTokenHandler } from "@/utils/firebase";
+import { useEffect } from "react";
+import { registerServiceWorker } from "@/utils/registerServiceWorker";
 
 export default function Home() {
   const handlePermissionRequest = async () => {
     Notification.requestPermission().then((permission) => {
       if (permission !== "granted") {
-        console.log("푸시 거부됨");
+        alert("푸시 거부됨");
       } else {
         setTokenHandler();
-        console.log("푸시 승인됨");
+        alert("푸시 승인됨");
       }
     });
   };
+
+  useEffect(() => {
+    registerServiceWorker();
+  }, []);
 
   return (
     <div>

@@ -1,5 +1,5 @@
 import { initializeApp } from "firebase/app";
-import { getMessaging, onMessage, getToken } from "firebase/messaging";
+import { getMessaging, getToken } from "firebase/messaging";
 
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
@@ -15,7 +15,9 @@ const firebaseApp = initializeApp(firebaseConfig);
 
 export const setTokenHandler = async () => {
   const messaging = getMessaging(firebaseApp);
-  await getToken(messaging, { vapidKey: process.env.NEXT_PUBLIC_FIREBASE_VAPI })
+  return await getToken(messaging, {
+    vapidKey: process.env.NEXT_PUBLIC_FIREBASE_VAPI,
+  })
     .then(async (currentToken) => {
       if (currentToken) {
         await fetch("/api/saveToken", {
@@ -34,7 +36,4 @@ export const setTokenHandler = async () => {
     .catch((err) => {
       console.log("An error occurred while retrieving token. ", err);
     });
-  onMessage(messaging, (payload) => {
-    console.log("Message received. ", payload);
-  });
 };
