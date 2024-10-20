@@ -51,7 +51,7 @@ self.addEventListener("push", function (event) {
     const notificationOptions = {
       body: data.body,
     };
-
+    console.log(notificationTitle);
     event.waitUntil(
       self.registration.showNotification(notificationTitle, notificationOptions)
     );
