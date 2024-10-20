@@ -46,11 +46,10 @@ self.addEventListener("notificationclick", (event) => {
 self.addEventListener("push", function (event) {
   if (event.data) {
     // 알림 메세지일 경우엔 event.data.json().notification;
-    const data = event.data.json().data;
-    console.log(data);
+    const data = event.data.json().notification;
     const notificationTitle = data.title;
     const notificationOptions = {
-      body: payload.notification.body,
+      body: data.body,
     };
 
     event.waitUntil(
