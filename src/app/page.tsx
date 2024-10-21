@@ -3,6 +3,7 @@ import { sendNotificationsToAll } from "@/utils/sendNotify";
 import { setTokenHandler } from "@/utils/firebase";
 import { useEffect } from "react";
 import { registerServiceWorker } from "@/utils/registerServiceWorker";
+import Link from "next/link";
 
 export default function Home() {
   const handlePermissionRequest = async () => {
@@ -37,6 +38,14 @@ export default function Home() {
       >
         권한 설정
       </button>
+      <Link href={"/map"}>
+        <button
+          type="button"
+          className="rounded-xl bg-orange-400 text-white px-5 py-2"
+        >
+          move to Google Map
+        </button>
+      </Link>
     </div>
   );
 }
