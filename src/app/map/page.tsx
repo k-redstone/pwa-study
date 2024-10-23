@@ -27,7 +27,6 @@ export default function MapPage() {
           <GoogleMap />
         </div>
       </Suspense>
-      <p className="">{navigator.language}</p>
     </div>
   );
 }
