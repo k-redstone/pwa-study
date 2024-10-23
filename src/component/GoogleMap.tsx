@@ -1,9 +1,11 @@
 "use client";
+
 import {
   APIProvider,
   Map,
   MapCameraChangedEvent,
   AdvancedMarker,
+  useApiIsLoaded,
 } from "@vis.gl/react-google-maps";
 
 import { useState } from "react";
@@ -13,7 +15,16 @@ import MapSearchBox from "./MapSearchBox";
 
 export default function GoogleMap() {
   const searchParams = useSearchParams();
+  const mapAPIisLoaded = useApiIsLoaded();
   const [language] = useState<string>(searchParams.get("lang") || "ko");
+
+  if (!mapAPIisLoaded) {
+    return (
+      <div>
+        <p>Loading..</p>
+      </div>
+    );
+  }
 
   return (
     <APIProvider
