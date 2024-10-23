@@ -2,7 +2,8 @@
 
 import GoogleMap from "@/component/GoogleMap";
 import { Suspense } from "react";
-
+import { ErrorBoundary } from "react-error-boundary";
+import ErrorFallback from "@/component/ErrorFallback";
 export default function MapPage() {
   const handleLanguageChange = (newLanguage: string) => {
     window.location.href = `/map?lang=${newLanguage}`;
@@ -22,11 +23,13 @@ export default function MapPage() {
       <button type="button" onClick={() => handleLanguageChange("ko")}>
         한국어
       </button>
-      <Suspense fallback={<p>asdf</p>}>
-        <div className="w-[22.5rem] h-[22.5rem]">
-          <GoogleMap />
-        </div>
-      </Suspense>
+      <ErrorBoundary FallbackComponent={ErrorFallback}>
+        <Suspense fallback={<p>asdf</p>}>
+          <div className="w-[22.5rem] h-[22.5rem]">
+            <GoogleMap />
+          </div>
+        </Suspense>
+      </ErrorBoundary>
     </div>
   );
 }

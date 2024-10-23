@@ -11,7 +11,7 @@ interface MapMarkerProps {
 
 export default function MapMarker({ data }: MapMarkerProps) {
   const [markerRef, marker] = useAdvancedMarkerRef();
-  const [infoWindowShown, setInfoWindowShown] = useState(false);
+  const [infoWindowShown, setInfoWindowShown] = useState<boolean>(false);
 
   const handleMarkerClick = useCallback(
     () => setInfoWindowShown((isShown) => !isShown),
@@ -23,9 +23,10 @@ export default function MapMarker({ data }: MapMarkerProps) {
   return (
     <>
       <AdvancedMarker
+        // clickable={true}
         ref={markerRef}
         position={{ lat: 37.55753826, lng: 126.97717909 }}
-        onClick={handleMarkerClick}
+        onClick={() => handleMarkerClick()}
       />
       {infoWindowShown && (
         <InfoWindow
